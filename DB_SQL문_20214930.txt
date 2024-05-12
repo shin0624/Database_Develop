@@ -1,0 +1,408 @@
+<COLLEGE> 단과대학 테이블 생성
+CREATE TABLE COLLEGE(
+CName VARCHAR2(30) NOT NULL,//단과대명
+COffice VARCHAR2(30) NOT NULL,//교학팀
+CPhone VARCHAR2(30),//교학팀 번호
+PRIMARY KEY(CName)
+);
+
+<INSTRUCTOR> 교수 테이블 생성
+CREATE TABLE INSTRUCTOR(
+Id INT NOT NULL,//교수 아이디
+Rank VARCHAR2(10),//교수 직급
+IName VARCHAR2(30) NOT NULL,//교수명
+IOffice VARCHAR2(30),//교수연구실
+IPhone INT,//교수연구실 번호
+PRIMARY KEY(Id)
+);
+
+<DEPT>학과 테이블 생성
+CREATE TABLE DEPT(
+DName VARCHAR2(30) NOT NULL,//학과명
+DCode INT NOT NULL,//학과코드
+DOffice VARCHAR2(30),//학과사무실
+DPhone VARCHAR2(30),//학과사무실 번호
+PRIMARY KEY(DName, DCode)
+);
+
+<COURSE> 과목 테이블 생성
+CREATE TABLE COURSE(
+CCode INT NOT NULL,//과목코드
+Credits INT NOT NULL,//과목 당 학점
+CoName VARCHAR2(30) NOT NULL,//과목명
+CLevel INT NOT NULL,//과목 대상 학년
+CDesc VARCHAR2(30) NOT NULL,//과목 대상 학과
+PRIMARY KEY(CCode, CoName)
+);
+
+<STUDENT> 학생 테이블 생성
+CREATE TABLE STUDENT(
+SId INT NOT NULL,//학번
+DOB DATE NOT NULL,//생년월일
+Addr VARCHAR2(30),//주소
+Major VARCHAR2(30),//전공
+Phone VARCHAR2(30),//전화번호
+FName VARCHAR2(10),//성
+MName VARCHAR2(10),//중간이름
+LName VARCHAR2(10),//끝 이름
+PRIMARY KEY(SId)
+);
+
+<SECTION> 섹션 테이블 생성
+CREATE TABLE SECTION(
+DaysTime VARCHAR2(30),//강의일자
+Year INT,//강의 개설 연도
+SecId INT NOT NULL,//섹션 아이디
+SecNo INT NOT NULL,//섹션 번호
+Sem INT NOT NULL,//강의 개설 학기
+Bldg VARCHAR2(30),//강의 건물
+RoomNo INT,//강의실 번호
+PRIMARY KEY(SecId)
+);
+
+FK로 설정할 속성을 삽입하고 FK를 선언해준다.
+
+<COLLEGE>에 Id, DName, DCode 추가
+ALTER TABLE COLLEGE
+ADD Id INT ;
+
+ALTER TABLE COLLEGE
+ADD FOREIGN KEY(Id)
+REFERENCES INSTRUCTOR(Id);
+
+ALTER TABLE COLLEGE
+ADD DName  VARCHAR(20) ;
+
+ALTER TABLE COLLEGE
+ADD FOREIGN KEY(DName)
+REFERENCES DEPT(DName);
+
+ALTER TABLE COLLEGE
+ADD DCode INT ;
+
+ALTER TABLE COLLEGE
+ADD FOREIGN KEY(DName, DCode)
+REFERENCES DEPT(DName, DCode)
+
+<INSTRUCTOR>에 SecId, CName, DName, DCode 추가
+ALTER TABLE INSTRUCTOR
+ADD SecId INT;
+
+ALTER TABLE INSTRUCTOR
+ADD FOREIGN KEY(SecId)
+REFERENCES SECTION(SecId);
+
+ALTER TABLE INSTRUCTOR
+ADD CName VARCHAR(20) ;
+
+ALTER TABLE INSTRUCTOR
+ADD FOREIGN KEY(CName)
+REFERENCES COLLEGE(CName);
+
+ALTER TABLE INSTRUCTOR
+ADD DName VARCHAR(20) ;
+
+ALTER TABLE INSTRUCTOR
+ADD FOREIGN KEY(DName, DCode) 
+REFERENCES DEPT(DName, DCode);
+
+ALTER TABLE INSTRUCTOR
+ADD DCode INT ;
+
+<DEPT>에 Id 추가
+ALTER TABLE DEPT
+ADD Id INT;
+
+ALTER TABLE DEPT
+ADD FOREIGN KEY(Id)
+REFERENCES INSTRUCTOR(Id);
+
+<COURSE>에 SecId 추가
+ALTER TABLE COURSE
+ADD SecId INT;
+
+ALTER TABLE COURSE
+ADD FOREIGN KEY(SecId)
+REFERENCES SECTION(SecId);
+
+INSERT문으로 레코드를 삽입해준다.
+
+<COLLEGE>삽입 레코드
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('IT융합대학', 'IT지상1층', '062-230-6037', '컴퓨터공학과', 12, 002);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('글로벌인문대학', '본관지상4층', '062-230-6903', '국어국문학과', 13, 003);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('자연과학대학', '자연과학관', '062-230-6601', '물리학과',14 , 004);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('공공보건안전대학', '자연과학관', '062.230.6783', '경찰행정학과', 15, 005);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('법사회대학', '법과대학지상1층', '062-230-6703', '법학과', 16, 006);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('경상대학', '경상대학지상2층', '062-230-6802', '경영학부', 17, 007);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('공과대학', '1공학관지상2층', '062-230-7005', '건축학과', 18, 008);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('사범대학', '사범대학지상3층', '062-230-7302', '국어교육과', 19, 009);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('미술체육대학', '미술대학지상3층', '062-230-7803', '시각디자인학과', 20, 010);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('의과대학', '의대1호관지상2층', '062-230-6394', '의예과', 21', 011);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('치과대학', '치대지상1층', '062-230-6866', '치의예과', 22, 012);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('약학대학', '약대3호관지상1층', '062-230-6363', '약학과', 23, 013);
+
+INSERT INTO COLLEGE(CName, COffice, CPhone, DName, DCode, Id) 
+VALUES('기초교육대학', '본관지상2층', '062-230-6177', '자유전공학부', 24, 002);
+
+<INSTRUCTOR> 삽입 레코드
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(002, '교수', '이정아', '7126', 7711);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(003, '교수', '정일용', '7127', 7712);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(004, '교수', '김판구', '7108', 7636);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(005, '교수', '모상만', '7105', 6032);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(006, '교수', '신석주', '7119', 6030);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(007, '교수', '정현숙', '7120', 7307);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(008, '교수', '강문수', '7125', 7475);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(009, '교수', '양희덕', '10106', 7474);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(010, '부교수', '심재홍', '7106', 6039);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(011, '부교수', '정호엽', '10128', 7100);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(012, '부교수', '최우열', '10123', 6033);
+
+INSERT INTO INSTRUCTOR (Id, Rank, IName, IOffice, IPhone)
+VALUES(013, '조교수', '전찬준', '10120', 7736);
+
+<DEPT> 삽입 레코드
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('컴퓨터공학과',12, NULL, '062-230-7381', 001, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('전자공학부', 12, NULL, '062-230-7070', 001, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('정보통신공학부', 12, NULL, '062-230-7081', 001, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('인공지능공학과', 12, NULL, '062-230-6034', 001, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('국어국문학과', 13, NULL, '062-230-6034', 003, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('물리학과', 14, NULL, '062-230-6034', 004, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('경찰행정학과', 15, NULL, '062.230.6783', 005, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('법학과', 16, NULL, '062-230-6703', 006, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('경영학부', 17, NULL, '062-230-6802', 007, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('건축학과', 18, NULL, '062-230-7005', 008, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('국어교육과', 19, NULL, '062-230-7302', 009, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('시각디자인학과', 20, NULL, '062-230-7302', 010, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('의예과', 21, NULL, '062-230-6394', 011, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('치의예과', 22, NULL, '062-230-6866', 012, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('약학과', 23, NULL, '062-230-6363', 013, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+INSERT INTO DEPT(DName, DCode, DOffice, DPhone, Id, CStartDate)
+VALUES('자유전공학부', 24, NULL, '062-230-6177', 002, TO_DATE('23-03-02', 'YY-MM-DD'));
+
+<COURSE> 삽입 레코드
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(01, 3, '기초프로그래밍', 1, '컴퓨터공학과', 44767);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(02, 3, '심화프로그래밍', 1, '컴퓨터공학과', 44733);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(03, 3, '소프트웨어이해', 1, '컴퓨터공학과', 44732);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(04, 3, '객체지향프로그래밍', 2, '컴퓨터공학과', 39768);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(05, 3, '데이터구조', 2, '컴퓨터공학과', 41110);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(06, 3, '논리회로', 2, '컴퓨터공학과', 20573);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(07, 3, '유닉스시스템', 2, '컴퓨터공학과', 41865);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(08, 3, '알고리즘', 2, '컴퓨터공학과', 39780);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(09, 3, '운영체제', 2, '컴퓨터공학과', 22023);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(10, 3, '자바프로그래밍', 2, '컴퓨터공학과', 39566);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(11, 3, '컴퓨터구조', 3, '컴퓨터공학과', 24191);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(12, 3, '컴퓨터네트워크', 3, '컴퓨터공학과', 22620);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(13, 3, '해킹및바이러스', 3, '컴퓨터공학과', 38688);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(14, 3, 'SW기술영어', 3, '컴퓨터공학과', 45566);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(15, 3, '데이터베이스', 3, '컴퓨터공학과', 38285);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(16, 3, '산학캡스톤디자인1', 4, '컴퓨터공학과', 44883);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(17, 2, '정보처리응용', 4, '컴퓨터공학과', 45567);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(18, 3, '서버웹프로그래밍', 4, '컴퓨터공학과', 45570);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(19, 3, '임베디드시스템', 4, '컴퓨터공학과', 41878);
+
+INSERT INTO COURSE(CCode, Credits, CoName, CLevel, CDesc, SecId)
+VALUES(20, 3, '컴퓨터비전', 2, '컴퓨터공학과', 44877);
+
+<SECTION>삽입 레코드
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 44767, 01,1,'IT',7221);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 44733, 02,2,'IT',7221);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 44732, 03,1,'IT',3228);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 39768, 04,1,'IT',7225);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 41110, 05,1,'IT',2222);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 20573, 06,1,'IT',10111);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 41865, 07,1,'IT',7225);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 39780, 08,2,'IT',3228);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 22023, 09,2,'IT',2104);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 39566, 10,2,'IT',7225);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 24191, 11,1,'IT',2104);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 22620, 12,1,'IT',2228);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 38688, 13,1,'IT',7221);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 45566, 14,2,'IT',2119);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 38285, 15,2,'IT',2104);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 44883, 16,1,'IT',10210);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 45567, 17,1,'IT',1122);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 45570, 18,2,'IT',10210);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 41878, 19,2,'IT',7221);
+
+INSERT INTO SECTION(DaysTime, Year, SecId, SecNo, Sem, Bldg, RoomNo)
+VALUES('2023-03-02', 2023, 44877, 20,1,'IT',3228);
+
+<STUDENT>삽입 레코드
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20192222, TO_DATE('00-03-31', 'YY-MM-DD'), '광주 광산구', '010-1111-2222', '컴퓨터공학과', 'KIM', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20180101, TO_DATE('99-03-31', 'YY-MM-DD'), '광주 동구', '010-5555-6666', '컴퓨터공학과', 'CHOI', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20189874, TO_DATE('99-07-01', 'YY-MM-DD'), '광주 북구', '010-6666-7777', '컴퓨터공학과', 'NA', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20187801, TO_DATE('99-01-05', 'YY-MM-DD'), '광주 광산구', '010-7777-8888', '컴퓨터공학과', 'SHIN', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20214930, TO_DATE('99-06-24', 'YY-MM-DD'), '광주 광산구', '010-8888-9999', '컴퓨터공학과', 'ANN', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20202221, TO_DATE('01-12-30', 'YY-MM-DD'), '서울 강남구', '010-9999-0000', '컴퓨터공학과', 'CHA', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20200101, TO_DATE('01-01-31', 'YY-MM-DD'), '울산 북구', '010-0000-1111', '컴퓨터공학과', 'MA', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20209999, TO_DATE('01-06-01', 'YY-MM-DD'), '대전 유성구', '010-1111-2222', '컴퓨터공학과', 'CHOI', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20218888, TO_DATE('99-03-03', 'YY-MM-DD'), '부산 중구', '010-1234-5678', '컴퓨터공학과', 'LEE', NULL, NULL);
+
+INSERT INTO STUDENT(SId, DOB, Addr, Phone, Major, FName, MName, LName)
+VALUES(20214567, TO_DATE('02-03-31', 'YY-MM-DD'), '서울 노원구', '010-9876-5432', '컴퓨터공학과', 'SUNG', NULL, NULL);
